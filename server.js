@@ -1,11 +1,14 @@
 const express = require('express')
+const hbs = require('hbs')
 const app = express()
 const port = 3000
 
 
+app.set("view engine" , "hbs")
+app.use(express.static(__dirname + "/views/assets"))
 
 app.get('/' , (req , res)=>{
-    res.send("hello")
+    res.render('index')
 })
 
 app.listen(port , ()=>{

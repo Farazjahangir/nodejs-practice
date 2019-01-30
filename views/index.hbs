@@ -15,14 +15,16 @@
         <div class="input-div">
             <h1 class="text-center">SignIn</h1>
             <div class="form-group">
-                <input type="text" placeholder="email" class="form-control">
+                <input type="text" placeholder="email" class="form-control" id="email">
             </div>
             <div class="form-group">
-                <input type="text" placeholder="password" class="form-control">
+                <input type="text" placeholder="password" class="form-control" id="password">
             </div>
-            <input type="button" value="SignIn" class="btn btn-success" />
+            <input type="button" value="SignIn" class="btn btn-success" onClick="signIn()" />
             <p>Dont Have account <a href="/signup">SignUp Here</a></p>
         </div>
     </div>
+
+    <script src="/js/signIn.js"></script>
 </body>
 </html>

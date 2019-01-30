@@ -1,31 +1,18 @@
 const express = require('express')
 const hbs = require('hbs')
-const mongoose = require('mongoose')
 const app = express()
 const port = 3000
-// const Todos = require('./model/todos-model')
+const Todos = require('./model/Todos')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.set("view engine" , "hbs")
 app.use(express.static(__dirname + "/views/assets"))
 
-mongoose.connect('mongodb://localhost:27017/todoApp')
 
 
 app.get('/' , (req , res)=>{
     res.render('dashboard')
-})
-
-
-const Todos = mongoose.model('Todos' , {
-    todo : {
-        type : String
-    },
-    created_at : {
-        type : Date,
-        default : Date.now()
-    }
 })
 
 

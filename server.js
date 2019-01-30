@@ -3,7 +3,7 @@ const hbs = require('hbs')
 const mongoose = require('mongoose')
 const app = express()
 const port = 3000
-const Todos = require('./model/todos-model')
+// const Todos = require('./model/todos-model')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -18,8 +18,28 @@ app.get('/' , (req , res)=>{
 })
 
 
-app.post('addd-todo' , (req , res)=>{
-    console.log(res.body);
+const Todos = mongoose.model('Todos' , {
+    todo : {
+        type : String
+    },
+    created_at : {
+        type : Date,
+        default : Date.now()
+    }
+})
+
+
+
+app.post('/add-todo' , (req , res)=>{
+    const newTodo = new Todos({todo : req.body.todo})
+    newTodo.save((err , success)=>{
+        if(err){
+            return console.log("ERR" , err);
+            
+        }
+        console.log('SUCCESS' , success);   
+        res.send({msg : 'success'})
+    })
     
 })
 

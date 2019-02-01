@@ -15,3 +15,20 @@ function submit(){
         
     })
 }
+
+function deleteTodo(key){
+    fetch('deletetodo' , {
+        headers : {
+            'Content-type' : 'application/json'
+        },
+        method : 'POST',
+        body : JSON.stringify({key : key})
+    })
+        .then((res)=>{
+            return res.json()
+        })
+        .then((success)=>{
+            console.log(success);
+            
+        })
+}

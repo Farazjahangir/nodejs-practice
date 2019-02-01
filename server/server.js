@@ -14,9 +14,13 @@ app.use(express.static(__dirname + "/views/assets"))
 app.get('/' , (req , res)=>{
         Todos.find({})
             .then((todo)=>{
-                console.log(todo);
-                
                 res.render('dashboard' , {todo})
+            })
+
+        Todos.findByIdAndDelete({_id : '5c52ce61f5016c04e57bef2b'})
+            .then((del)=>{
+                console.log(del);
+                
             })
          
 })
@@ -33,6 +37,12 @@ app.post('/add-todo' , (req , res)=>{
         res.send({msg : 'success'})
     })
     
+})
+app.post('/deletetodo' , (req , res)=>{
+    Todos.findByIdAndDelete({_id : req.body.key})
+        .then(()=>{
+            res.send({msg :  "Success"})
+        })
 })
 
 

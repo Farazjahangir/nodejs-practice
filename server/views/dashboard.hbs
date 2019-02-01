@@ -24,8 +24,9 @@
                 <div id="todos">
                     <ul class="list-group">
                     {{#each todo}}
-                        <li class="list-group-item">
-                                {{this.todo}}
+                        <li class="list-group-item d-flex justify-content-between">
+                               <span>{{this.todo}}</span>
+                               <span><button class="btn btn-danger"  onClick="deleteTodo('{{this._id}}')">Delete</button></span>
                         </li>
                         {{/each}}
                     </ul>

@@ -38,7 +38,7 @@ function editTodo(e , key){
      console.log(nodeToDelete);
      
     
-    const oldText = childNode.innerText
+     oldText = childNode.innerText
     
     nodeToDelete.removeChild(childNode)
     nodeToDelete.innerHTML = `
@@ -46,7 +46,7 @@ function editTodo(e , key){
                 <input type='text' class="form-control" style="width : 850px;" />
             </span>
             <div>
-                <span><button class="btn btn-danger">Cancle</button></span>
+                <span><button class="btn btn-danger" onClick="cancle(this , '${key}')">Cancle</button></span>
                 <span><button class="btn btn-success" onClick="updateText(this , '${key}')">Update</button></span>
             </div>
     `
@@ -90,4 +90,21 @@ function updateText(e , key){
         <span><button class="btn btn-primary"  onClick="editTodo(this , '${key}')">Edit</button></span>
    `
    
+}
+
+function cancle(e , key){
+    const parentNode = e.parentNode.parentNode.parentNode.childNodes
+    console.log(parentNode[3].childNodes[1]);
+
+    parentNode[1].removeChild(parentNode[1].childNodes[1])
+    parentNode[3].removeChild(parentNode[3].childNodes[1])
+    parentNode[3].removeChild(parentNode[3].childNodes[2])
+    console.log(parentNode);
+    parentNode[1].innerText = oldText
+    parentNode[3].innerHTML = `
+         <span><button class="btn btn-danger"  onClick="deleteTodo('${key}')">Delete</button></span>
+         <span><button class="btn btn-primary"  onClick="editTodo(this , '${key}')">Edit</button></span>
+    ` 
+    
+    
 }

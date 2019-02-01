@@ -15,14 +15,7 @@ app.get('/' , (req , res)=>{
         Todos.find({})
             .then((todo)=>{
                 res.render('dashboard' , {todo})
-            })
-
-        Todos.findByIdAndDelete({_id : '5c52ce61f5016c04e57bef2b'})
-            .then((del)=>{
-                console.log(del);
-                
-            })
-         
+            })         
 })
 
 
@@ -43,6 +36,16 @@ app.post('/deletetodo' , (req , res)=>{
         .then(()=>{
             res.send({msg :  "Success"})
         })
+})
+
+app.post('/edit' , (req, res)=>{
+    Todos.findOneAndUpdate({_id : req.body.key} , {todo : req.body.newText})
+        .then((t)=>{
+            console.log(t);
+            
+        })
+        
+    
 })
 
 

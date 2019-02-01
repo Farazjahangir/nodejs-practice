@@ -14,5 +14,4 @@ function submit(){
         console.log(myJson);
         
     })
-    
 }

@@ -12,9 +12,14 @@ app.use(express.static(__dirname + "/views/assets"))
 
 
 app.get('/' , (req , res)=>{
-    res.render('dashboard')
+        Todos.find({})
+            .then((todo)=>{
+                console.log(todo);
+                
+                res.render('dashboard' , {todo})
+            })
+         
 })
-
 
 
 app.post('/add-todo' , (req , res)=>{

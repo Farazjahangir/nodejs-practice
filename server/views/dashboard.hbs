@@ -18,6 +18,20 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <h1 class="my-5">Todos</h1>
+                <div id="todos">
+                    <ul class="list-group">
+                    {{#each todo}}
+                        <li class="list-group-item">
+                                {{this.todo}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="/js/addTodos.js"></script>
 </body>

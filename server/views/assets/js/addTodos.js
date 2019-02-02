@@ -1,3 +1,14 @@
+const socket = io();
+console.log("SOCKET" , socket);
+
+socket.on("connect",()=>{
+    console.log("Server Connected");
+})
+
+socket.on("disconnect",()=>{
+    console.log("Server Disconnected");
+})
+
 function submit(){
     const todo = document.getElementById('todo').value
     fetch('/add-todo' , {

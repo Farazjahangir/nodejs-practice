@@ -1,17 +1,21 @@
+// Libs Requiring
 const express = require('express')
-const hbs = require('hbs')
+// const hbs = require('hbs')
 const http = require('http');
 const app = express();
 const server = http.createServer(app);
+const socketIO = require('socket.io');
+const io = socketIO(server);
+
 const port = 3000
+
+// Others Utils Requiing
 const Todos = require('./model/Todos')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.set("view engine", "hbs")
 app.use(express.static(__dirname + "/views/assets"))
-const socketIO = require('socket.io');
 
-const io = socketIO(server);
 
 app.get('/', (req, res) => {
     Todos.find({})
@@ -28,17 +32,19 @@ app.post('/add-todo', (req, res) => {
             return console.log("ERR", err);
 
         }
-            console.log('client Connected');
-            io.emit('newTodo' , {success})   
+        io.emit('newTodo' , {success}) // Emiting New Todo On Client
+    })
 })
 
-})
+
+
 app.post('/deletetodo', (req, res) => {
     Todos.findByIdAndDelete({ _id: req.body.key })
         .then(() => {
-            res.send({ msg: "Success" })
+            res.send({msg : 'success'})
         })
 })
+
 
 app.post('/edit', (req, res) => {
     Todos.findOneAndUpdate({ _id: req.body.key }, { todo: req.body.newText })
@@ -46,8 +52,6 @@ app.post('/edit', (req, res) => {
             console.log(t);
 
         })
-
-
 })
 
 

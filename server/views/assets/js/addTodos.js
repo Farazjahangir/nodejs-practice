@@ -1,4 +1,6 @@
 const socket = io();
+
+// Function For Submitting Todo 
 function submit(){
     const todo = document.getElementById('todo').value
     fetch('/add-todo' , {
@@ -16,13 +18,15 @@ function submit(){
         
     })
 }
+
+
 socket.on('connect' , ()=>{
     console.log('server Connected');
     
 })
+
+// SocketIO event listener For Geetting Todos Realtime
 socket.on('newTodo' , (newTodo)=>{
-    console.log(newTodo);
-    
     var listRef = document.getElementById('todo-list')
     listRef.innerHTML += `
     <li class="list-group-item d-flex justify-content-between">
@@ -36,6 +40,8 @@ socket.on('newTodo' , (newTodo)=>{
     `  
 })
 
+
+// Function For Deleting Todos
 function deleteTodo(key){
     fetch('deletetodo' , {
         headers : {
@@ -48,18 +54,18 @@ function deleteTodo(key){
             return res.json()
         })
         .then((success)=>{
-            console.log(success);
-            
+            console.log('success');            
         })
 }
+
+
+
+// Function To Show Text Field For Edit Todo
 function editTodo(e , key){
      const nodeToDelete = e.parentNode.parentNode.parentNode;
      const childNode = nodeToDelete.childNodes[1]
-     console.log(nodeToDelete);
-     
-    
      oldText = childNode.innerText
-    
+
     nodeToDelete.removeChild(childNode)
     nodeToDelete.innerHTML = `
             <span>
@@ -74,18 +80,17 @@ function editTodo(e , key){
    
 }
 
+// Function For Saving Updated To
 function updateText(e , key){    
     const parentNode =e.parentNode.parentNode.parentNode.childNodes
-    
-    
     const newText = parentNode[1].childNodes[1].value   
-    console.log(parentNode);
-    
-     
+    const nodeToDelete1 = parentNode[1].childNodes[1]    
+    const nodeToDelete2 = parentNode[3]
     const editedTodoObj = {
         key,
         newText
     }
+
     fetch('/edit' , {
         headers : {
             'Content-type' : 'application/json'
@@ -94,32 +99,25 @@ function updateText(e , key){
         body : JSON.stringify(editedTodoObj)
     })
     
-    const nodeToDelete1 = parentNode[1].childNodes[1]
-    // console.log(nodeToDelete1);
-    
-    const nodeToDelete2 = parentNode[3]
-    //    console.log(nodeToDelete);
     
     parentNode[1].removeChild(nodeToDelete1)
     parentNode[3].removeChild(nodeToDelete2.childNodes[1])
-   parentNode[3].removeChild(nodeToDelete2.childNodes[2])
-
-   parentNode[1].innerText = newText
-   parentNode[3].innerHTML = `
-        <span><button class="btn btn-danger"  onClick="deleteTodo('${key}')">Delete</button></span>
-        <span><button class="btn btn-primary"  onClick="editTodo(this , '${key}')">Edit</button></span>
-   `
-   
+    parentNode[3].removeChild(nodeToDelete2.childNodes[2])
+    parentNode[1].innerText = newText
+    parentNode[3].innerHTML = `
+            <span><button class="btn btn-danger"  onClick="deleteTodo('${key}')">Delete</button></span>
+            <span><button class="btn btn-primary"  onClick="editTodo(this , '${key}')">Edit</button></span>
+    `
+    
 }
 
+
+// Function For Cancelling Editing Todos
 function cancle(e , key){
     const parentNode = e.parentNode.parentNode.parentNode.childNodes
-    console.log(parentNode[3].childNodes[1]);
-
     parentNode[1].removeChild(parentNode[1].childNodes[1])
     parentNode[3].removeChild(parentNode[3].childNodes[1])
     parentNode[3].removeChild(parentNode[3].childNodes[2])
-    console.log(parentNode);
     parentNode[1].innerText = oldText
     parentNode[3].innerHTML = `
          <span><button class="btn btn-danger"  onClick="deleteTodo('${key}')">Delete</button></span>

@@ -1,14 +1,4 @@
 const socket = io();
-console.log("SOCKET" , socket);
-
-socket.on("connect",()=>{
-    console.log("Server Connected");
-})
-
-socket.on("disconnect",()=>{
-    console.log("Server Disconnected");
-})
-
 function submit(){
     const todo = document.getElementById('todo').value
     fetch('/add-todo' , {
@@ -26,6 +16,25 @@ function submit(){
         
     })
 }
+socket.on('connect' , ()=>{
+    console.log('server Connected');
+    
+})
+socket.on('newTodo' , (newTodo)=>{
+    console.log(newTodo);
+    
+    var listRef = document.getElementById('todo-list')
+    listRef.innerHTML += `
+    <li class="list-group-item d-flex justify-content-between">
+        <span>${newTodo.success.todo}</span>
+        <div>
+        <span><button class="btn btn-danger"  onClick="deleteTodo('${newTodo.success._id}')">Delete</button></span>
+        <span><button class="btn btn-primary"  onClick="editTodo(this , '${newTodo.success._id}')">Edit</button></span>
+        </div>
+    </li>
+
+    `  
+})
 
 function deleteTodo(key){
     fetch('deletetodo' , {

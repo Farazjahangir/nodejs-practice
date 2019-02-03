@@ -13,16 +13,6 @@ const socketIO = require('socket.io');
 
 const io = socketIO(server);
 
-io.on('connection', (socket) => {
-    console.log("Client Connected");
-
-
-    socket.on('disconnect', () => {
-        console.log("Client Disconnected");
-    })
-})
-
-
 app.get('/', (req, res) => {
     Todos.find({})
         .then((todo) => {
@@ -38,9 +28,9 @@ app.post('/add-todo', (req, res) => {
             return console.log("ERR", err);
 
         }
-        console.log('SUCCESS', success);
-        res.send({ msg: 'success' })
-    })
+            console.log('client Connected');
+            io.emit('newTodo' , {success})   
+})
 
 })
 app.post('/deletetodo', (req, res) => {

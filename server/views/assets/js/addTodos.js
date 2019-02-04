@@ -32,7 +32,7 @@ socket.on('newTodo' , (newTodo)=>{
     <li class="list-group-item d-flex justify-content-between">
         <span>${newTodo.success.todo}</span>
         <div>
-        <span><button class="btn btn-danger"  onClick="deleteTodo('${newTodo.success._id}')">Delete</button></span>
+        <span><button class="btn btn-danger"  onClick="deleteTodo(this ,'${newTodo.success._id}')">Delete</button></span>
         <span><button class="btn btn-primary"  onClick="editTodo(this , '${newTodo.success._id}')">Edit</button></span>
         </div>
     </li>
@@ -42,7 +42,10 @@ socket.on('newTodo' , (newTodo)=>{
 
 
 // Function For Deleting Todos
-function deleteTodo(key){
+function deleteTodo(el ,key){
+    const parentNode = el.parentNode.parentNode.parentNode.parentNode;
+    const nodeDelete = el.parentNode.parentNode.parentNode
+    
     fetch('deletetodo' , {
         headers : {
             'Content-type' : 'application/json'
@@ -54,7 +57,8 @@ function deleteTodo(key){
             return res.json()
         })
         .then((success)=>{
-            console.log('success');            
+            console.log('success');    
+            parentNode.removeChild(nodeDelete)
         })
 }
 
@@ -105,7 +109,7 @@ function updateText(e , key){
     parentNode[3].removeChild(nodeToDelete2.childNodes[2])
     parentNode[1].innerText = newText
     parentNode[3].innerHTML = `
-            <span><button class="btn btn-danger"  onClick="deleteTodo('${key}')">Delete</button></span>
+            <span><button class="btn btn-danger"  onClick="deleteTodo(this ,'${key}')">Delete</button></span>
             <span><button class="btn btn-primary"  onClick="editTodo(this , '${key}')">Edit</button></span>
     `
     
@@ -120,7 +124,7 @@ function cancle(e , key){
     parentNode[3].removeChild(parentNode[3].childNodes[2])
     parentNode[1].innerText = oldText
     parentNode[3].innerHTML = `
-         <span><button class="btn btn-danger"  onClick="deleteTodo('${key}')">Delete</button></span>
+         <span><button class="btn btn-danger"  onClick="deleteTodo(this ,'${key}')">Delete</button></span>
          <span><button class="btn btn-primary"  onClick="editTodo(this , '${key}')">Edit</button></span>
     ` 
     
